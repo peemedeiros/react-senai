@@ -28,24 +28,39 @@ class FormularioSeries extends Component {
 
     render(){
         return (
-            <div>
-                <form method="post" onSubmit={this.enviarDados}>
-                    <div className="form">
-                        <label htmlFor='nome'>Nome</label>
-                        <input type="text" id="nome" name="nome" onChange={this.inputHadler} value={this.state.nome}/>
+            <div className="card">
+                <div className="card-header">
+                    Cadastro
+                </div>
+                <div className="card-body">
+                    <form method="post" onSubmit={this.enviarDados}>
+                        <div className="form">
+                            
+                            <div className="form-group">
+                                <label htmlFor='nome'>Nome</label>
+                                <input type="text" id="nome" name="nome" className="form-control" onChange={this.inputHadler} value={this.state.nome}/>
+                            </div>
 
-                        <label htmlFor='nome'>Lançamentos</label>
-                        <input type="text" id="lancamento" name="ano_lancamento" onChange={this.inputHadler} value={this.state.ano_lancamento}/>
+                            <div className="form-group">
+                                <label htmlFor='nome'>Lançamentos</label>
+                                <input type="text" id="lancamento" className="form-control" name="ano_lancamento" onChange={this.inputHadler} value={this.state.ano_lancamento}/>
+                            </div>
 
-                        <label htmlFor='nome'>Temporadas</label>
-                        <input type="text" id="temporadas" name="temporadas" onChange={this.inputHadler} value={this.state.temporadas}/>
+                            <div className="form-group">
+                                <label htmlFor='nome'>Temporadas</label>
+                                <input type="text" id="temporadas" className="form-control" name="temporadas" onChange={this.inputHadler} value={this.state.temporadas}/>
+                            </div>
 
-                        <label htmlFor='nome'>Sinopse</label>
-                        <textarea id="sinopse" name="sinopse" onChange={this.inputHadler} value={this.state.sinopse}></textarea>
-
-                        <button type="submit">Salvar</button>
-                    </div>
-                </form>
+                            <div className="form-group">
+                                <label htmlFor='nome'>Sinopse</label>
+                                <textarea id="sinopse" name="sinopse" className="form-control" onChange={this.inputHadler} value={this.state.sinopse}></textarea>
+                            </div>
+                            
+                            <button className="btn btn-success form-control mt-2" type="submit">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+               
 
             </div>
         )
