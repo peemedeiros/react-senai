@@ -18,34 +18,50 @@ class BoxSeries extends Component {
     }
 
     enviarDados = async (serie) => {
-        console.log("enviando dados...");
 
-        const url = 'http://localhost:3000/series';
-        // serie.ano_lancamento = serie.lancamento;
-        // delete serie.lancamento
-        console.log(serie)
-
+        console.log('enviando dados....')
+        
+        const method = serie.id ? 'PUT' : 'POST'
+        
         const params = {
-            method:'POST',
-            headers:{
+            method: method,
+            headers: {
                 Accept: 'application/json',
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(serie)
         }
-        try{
-            const retorno = await fetch(url, params);
-            if( retorno.status === 201 ){
+        const urlParam = serie.id || ''
 
-                console.log('Enviado com sucesso');
-                serie = await retorno.json();
-                this.setState({series: [...this.state.series, serie]})
-                console.log(serie);
+        try {
 
-            }
-        }catch(erro){
+        const retorno =
+            await fetch('http://localhost:3000/series/' + urlParam, params)
+        console.log('enviado com sucesso')
+        serie = await retorno.json()
+
+        if (retorno.status === 201) {
+
+            return this.setState({
+            series: [...this.state.series, serie],
+            serie: this.novaSerie
+            })
+        }
+
+        if(retorno.status === 200){
+
+            console.log(serie)
+            this.setState({
+            series: this.state.series.map(s => s.id == serie.id ? serie : s ),
+            serie: this.novaSerie
+            })
+            console.log(this.state.series)
+        }
+        
+        } catch (erro) {
             console.log(erro)
         }
+    
     }
 
     deleta = async (id) => {

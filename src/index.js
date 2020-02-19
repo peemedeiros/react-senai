@@ -2,7 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Login from './componets/login/Login';
 import * as serviceWorker from './serviceWorker';
+
+const isSingedIn = true; 
+
+const Index = () => {
+    if(isSingedIn)
+        return <App />
+    else 
+        return <Login />
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
