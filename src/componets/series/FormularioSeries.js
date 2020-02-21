@@ -25,10 +25,11 @@ class FormularioSeries extends Component {
         this.setState({[name]: value});
     }
 
-    enviarDados = (e) => {
+    enviarDados = async (e) => {
         e.preventDefault(); // Impede que a função padrão do elemento seja realizada
-        this.props.enviarDados(this.state);
+        await this.props.enviarDados(this.state);
         this.setState(this.stateInicial);
+        delete this.state.id
     }
 
     render(){

@@ -26,8 +26,14 @@ const ListaSeries = (props) => {
                         {serie.temporadas}
                         {serie.temporadas > 1 ? ' temporadas' : ' temporada'}
                         <br />
-                         <a href="" target="_blank">
-                            Sinopse
+                         <a href=""
+                            target="_blank"
+                            data-toggle="modal"
+                            data-target="#exampleModalCenter"
+                            onClick={() => {
+                                PubSub.publish('detail', serie)
+                            }}>
+                            Ver mais
                          </a>
                          <br/>
                          <button onClick={ () => {
@@ -55,13 +61,49 @@ const ListaSeries = (props) => {
 }
 
 class TabelaSeries extends Component{
-    
-    render(){
+    constructor(){
+        super()
+        this.state = {
 
+            serieDetalhe : ''
+            
+        }
+        
+        PubSub.subscribe('detail', (msg, serie) => {
+            this.setState({serieDetalhe: serie});
+        })
+    }
+    render(){
         const {series, deleta} = this.props;
+        const serieDetalhe = this.state.serieDetalhe
 
         return (
             <div className="card">
+                <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalCenterTitle">{serieDetalhe.nome}</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="text-center">
+                                <img  src="/logo192.png" /><br/>
+                            </div>
+                            
+                            {serieDetalhe.temporadas}
+                            {serieDetalhe.temporadas > 1 ? ' temporadas' : ' temporada'} <br/>
+                            {serieDetalhe.ano_lancamento}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
                 <div className="card-header">
                     Lista de Series
                 </div>

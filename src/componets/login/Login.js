@@ -31,38 +31,28 @@ class Login extends Component{
     }
 
     signIn = async (e) => {
-        e.preventDefault();
-        const {email, senha} = this.state;
-        const params = {
-            method:'POST',
-            headers:{
-                Accept:'application/json',
-                'Content-type':'application/json'
-            },
-            body: JSON.stringify({
-                email:email,
-                senha:senha
-            })
-        }
         try{
 
-            const retorno = await fetch('http://localhost:3000/auth/autenticar', params)
-            console.log(retorno);
-            
-            if(retorno.status === 400){
-                const erro = await retorno.json();
-                this.setState({msgErro: erro.erro});
-            }
+            e.preventDefault();
+            const usuario = this.state;
+            delete usuario.msgErro;
+            const retorno = await signIn(usuario)
 
-            if(retorno.ok){
-                const resposta = await retorno.json();
-                signIn(resposta);
-                this.props.history.push('/');
-            }
-            
-            const usuario = await retorno.json()
-            console.log(usuario);
+                if(retorno.status === 400){
 
+                    const erro = await retorno.json();
+                    this.setState({msgErro: erro.erro});
+
+                }
+
+                if(retorno.ok){
+
+                    this.props.history.push('/');
+
+                }
+                
+
+        
         } catch(e) {
             console.log(e)
         }
@@ -77,6 +67,7 @@ class Login extends Component{
                     <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                     <MsgErro mensagem={this.state.msgErro} />
                     <label for="inputEmail" className="sr-only">Email address</label>
+                    
                     <input 
                     type="email" 
                     id="email"
@@ -85,7 +76,9 @@ class Login extends Component{
                     placeholder="Email address" 
                     required autofocus 
                     onChange={this.inputHandler}/>
+
                     <label for="inputPassword" className="sr-only">Password</label>
+
                     <input type="password"
                     id="senha"
                     name="senha" 
